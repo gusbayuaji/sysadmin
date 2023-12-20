@@ -1,0 +1,56 @@
+Instalasi dan Konfigurasi Web Server
+Saya memilih untuk menggunakan Apache2 sebagai server web utama untuk proyek saya daripada Nginx. tidak ada alasan khusus saya memilih apache2,anda bisa memilih Nginx. saya juga akan menginstall CMS wordpress untuk Webserver ini.Apache2 memiliki dukungan yang baik untuk PHP, yang merupakan salah satu persyaratan utama untuk menjalankan WordPress dengan lancar.
+
+1 Instalasi Apache2
+Langkah 1: Instalasi Paket Apache2
+
+$apt update
+$apt-get install apache2
+
+2 Konfigurasi Apache2
+Langkah 1: Buka File Konfigurasi Apache2
+
+$nano /etc/apache2/sites-available/000-default.conf
+$systemctl restart apache2
+
+2 Konfigurasi CMS Wordpress pada Apache2
+Langkah 1: Melakukan Instalasi PHP
+$apt-get update
+$apt-get install php php-mysql
+
+
+Langkah 2: Melakukan Instalasi Database Server
+Untuk ini sudah dibuat bab lain jadi anda bisa cek ke Instalasi Database Server
+Langkah 3: Buat Database untuk wordpress
+login ke Database Terlebih dahulu:
+$mysql -u root -p
+
+buat database untuk Wordpress dan berikan password sesuai keinginan anda
+CREATE DATABASE wordpress;
+CREATE USER 'wordpressuser'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpressuser'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+
+Langkah 4: Download dan Extract Paket Wordpress
+$curl -O https://wordpress.org/latest.tar.gz
+$tar xzvf latest.tar.gz
+
+Langkah 5: Pindahkan isi direktori Wordpress
+$mv /home/gusbay/wordpress/* /var/www/html/
+
+Langkah 6: Copy file Konfigurasi utama wordpress
+$cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
+$nano /var/www/html/wp-config.php
+/** The name of the database for WordPress */
+define( 'DB_NAME', 'wordpress' );
+
+/** Database username */
+define( 'DB_USER', 'wordpressuser' );
+
+/** Database password */
+define( 'DB_PASSWORD', '123ewqsd' );
+
+/** Database hostname */
+define( 'DB_HOST', 'localhost' );
+
